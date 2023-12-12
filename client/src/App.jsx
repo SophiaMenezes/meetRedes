@@ -8,12 +8,13 @@ import "./App.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import io from "socket.io-client";
 import Peer from "simple-peer";
+import Logo from "./assets/icon.png";
 
 // Conexão do socket
 const socket = io.connect("http://localhost:8000");
 
+// Definição dos estados
 function App() {
-  // Definição dos estados
   const [me, setMe] = useState(""); // ID do usuário atual
   const [stream, setStream] = useState(); // Stream de mídia
   const [receivingCall, setReceivingCall] = useState(false); // Indica se está recebendo uma chamada
@@ -124,8 +125,37 @@ function App() {
 
   return (
     <>
-      <h1 style={{ textAlign: "center", color: "#fff" }}>Vídeo-Chamada</h1>
-      <h2 style={{ textAlign: "center", color: "#fff" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "-5rem",
+          marginLeft: "10rem",
+        }}
+      >
+        <img src={Logo} alt="Logo" title="Logo" style={{ width: "10%" }} />
+      </div>
+      <h1
+        style={{
+          textAlign: "center",
+          color: "#fff",
+          fontFamily: "Kalnia",
+          marginLeft: "10rem",
+          marginTop: "0rem",
+        }}
+      >
+        Vídeo-Chamada
+      </h1>
+      <h2
+        style={{
+          textAlign: "center",
+          color: "#fff",
+          fontFamily: "Kalnia",
+          marginLeft: "10rem",
+          marginTop: "-2rem",
+        }}
+      >
         Disciplina: Redes de Computadores
       </h2>
       <div className="container">
@@ -164,10 +194,10 @@ function App() {
           <CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
             <Button
               variant="contained"
-              color="primary"
+              color="secundary"
               startIcon={<AssignmentIcon fontSize="large" />}
             >
-              Copiar
+              Copiar o ID
             </Button>
           </CopyToClipboard>
 
@@ -180,7 +210,7 @@ function App() {
           />
           <div className="call-button">
             {callAccepted && !callEnded ? (
-              <Button variant="contained" color="secondary" onClick={leaveCall}>
+              <Button variant="contained" color="secundary" onClick={leaveCall}>
                 Finalizar
               </Button>
             ) : (
@@ -198,8 +228,12 @@ function App() {
         <div>
           {receivingCall && !callAccepted ? (
             <div className="caller">
-              <h1>{name} te convida para uma chamada de vídeo!</h1>
-              <Button variant="contained" color="primary" onClick={answerCall}>
+              <h3>{name} te convida para uma chamada de vídeo!</h3>
+              <Button
+                variant="contained"
+                color="secundary"
+                onClick={answerCall}
+              >
                 Aceitar
               </Button>
             </div>

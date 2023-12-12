@@ -32,4 +32,4 @@ io.on("connection", socket => {
   });
 });
 
-server.listen(PORT, () => console.log('Servidor executando...')); // Inicia o servidor na porta especificada e imprime uma mensagem no console
+server.listen(PORT, () => console.log('Executando o servidor...')); // Inicia o servidor na porta especificada e imprime uma mensagem no console
