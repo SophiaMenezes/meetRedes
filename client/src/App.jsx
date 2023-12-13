@@ -13,17 +13,17 @@ import Logo from "./assets/icon.png";
 // Conexão do socket
 const socket = io.connect("http://localhost:8000");
 
-// Definição dos estados
+// Definição dos estados - armazenamento
 function App() {
   const [me, setMe] = useState(""); // ID do usuário atual
-  const [stream, setStream] = useState(); // Stream de mídia
-  const [receivingCall, setReceivingCall] = useState(false); // Indica se está recebendo uma chamada
-  const [caller, setCaller] = useState(""); // ID do chamador
+  const [name, setName] = useState(""); // Nome do usuário
+  const [stream, setStream] = useState(); // Stream de mídia (video)
+  const [receivingCall, setReceivingCall] = useState(false); // Mostra se está recebendo uma chamada
+  const [caller, setCaller] = useState(""); // ID de quem está fazendo a ligação
   const [callerSignal, setCallerSignal] = useState(); // Dados de sinalização do chamador
   const [callAccepted, setCallAccepted] = useState(false); // Indica se a chamada foi aceita
-  const [idToCall, setIdToCall] = useState(""); // ID do usuário a ser chamado
+  const [idToCall, setIdToCall] = useState(""); // ID do usuário que vai receber a ligação
   const [callEnded, setCallEnded] = useState(false); // Indica se a chamada foi encerrada
-  const [name, setName] = useState(""); // Nome do usuário
   const myVideo = useRef(); // Referência para o elemento de vídeo do usuário atual
   const userVideo = useRef(); // Referência para o elemento de vídeo do outro usuário
   const connectionRef = useRef(); // Referência para a conexão do Simple Peer
@@ -104,7 +104,7 @@ function App() {
       userVideo.current.srcObject = stream;
     });
 
-    peer.signal(callerSignal); // Sinaliza a chamada com os dados de sinalização do chamador
+    peer.signal(callerSignal); // Sinaliza a chamada com os dados de quem está chamando
     connectionRef.current = peer; // Armazena a conexão do Simple Peer
   };
 
@@ -115,11 +115,6 @@ function App() {
   };
 
   useEffect(() => {
-    // Evento 'receive_message': Recebe uma nova mensagem
-    socket.on("receive_message", (data) => {
-      setMessageList((current) => [...current, data]);
-    });
-
     return () => socket.off("receive_message"); // Remove o ouvinte do evento ao desmontar o componente
   }, [socket]);
 
@@ -177,7 +172,7 @@ function App() {
                 playsInline
                 ref={userVideo}
                 autoPlay
-                style={{ width: "300px" }}
+                style={{ width: "300px", marginLeft: "5rem" }}
               />
             ) : null}
           </div>
